@@ -14,12 +14,11 @@ class PolynomialRegression(BaseEstimator, RegressorMixin):
         X = np.asarray(X).reshape(-1)
         y = np.asarray(y).reshape(-1)
 
-        Phi = np.vander(X, N=self.degree + 1, increasing=True)
-
-        A = Phi.T @ Phi
-        b = Phi.T @ y
-
-        self.coef_ = np.linalg.solve(A, b)
+        self.coef_ = np.polynomial.polynomial.polyfit(
+            X,
+            y,
+            self.degree
+        )
 
         return self
 
@@ -27,9 +26,10 @@ class PolynomialRegression(BaseEstimator, RegressorMixin):
 
         X = np.asarray(X).reshape(-1)
 
-        Phi = np.vander(X, N=self.degree + 1, increasing=True)
-
-        return Phi @ self.coef_
+        return np.polynomial.polynomial.polyval(
+            X,
+            self.coef_
+        )
 
     def score(self, X, y):
 

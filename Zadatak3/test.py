@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
 from poly_regression import PolynomialRegression
 
@@ -12,6 +13,11 @@ y = podaci["Y"].values
 stepeni = [1, 2, 3, 5, 9]
 
 X_novo = np.array([600, 900, 1300, 1600])
+
+X_grafik = np.linspace(min(X), max(X), 500)
+
+
+plt.scatter(X, y, label="Originalni podaci")
 
 
 for M in stepeni:
@@ -43,3 +49,16 @@ for M in stepeni:
 
     for x, y_novo in zip(X_novo, nove_predikcije):
         print(f"X = {x} -> Y = {y_novo}")
+
+    y_grafik = model.predict(X_grafik)
+
+    plt.plot(X_grafik, y_grafik, label=f"M = {M}")
+
+
+plt.xlabel("Padavine X (mm)")
+plt.ylabel("Biomasa Y (t/ha)")
+plt.title("Polinomijalna regresija za različite stepene M")
+plt.legend()
+plt.grid()
+
+plt.show()
